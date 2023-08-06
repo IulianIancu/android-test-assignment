@@ -4,8 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
-import com.example.shacklehotelbuddy.ui.theme.ShackleHotelBuddyTheme.colors
-import com.example.shacklehotelbuddy.ui.theme.ShackleHotelBuddyTheme.typography
 
 object ShackleHotelBuddyTheme {
     val colors: CustomColors
