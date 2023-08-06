@@ -1,6 +1,7 @@
 package com.iulian.iancu.data.storage
 
 import androidx.room.Database
+import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
@@ -8,6 +9,6 @@ import androidx.room.TypeConverters
     version = 1
 )
 @TypeConverters(HotelDataConverter::class)
-abstract class HotelQueryDatabase {
+abstract class HotelQueryDatabase : RoomDatabase() {
     abstract fun hotelQueryDAO(): HotelQueryDAO
 }
