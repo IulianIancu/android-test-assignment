@@ -1,4 +1,4 @@
-package com.iulian.iancu.data
+package com.iulian.iancu.data.storage
 
 import androidx.room.Database
 import androidx.room.TypeConverters

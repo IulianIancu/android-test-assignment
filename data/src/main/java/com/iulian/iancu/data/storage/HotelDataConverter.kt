@@ -1,4 +1,4 @@
-package com.iulian.iancu.data
+package com.iulian.iancu.data.storage
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

@@ -1,4 +1,4 @@
-package com.iulian.iancu.data
+package com.iulian.iancu.data.storage
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
