@@ -4,6 +4,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface HotelRepository {
 
-    suspend fun getNewHotels(): Flow<List<HotelEntity>>
-    suspend fun getPreviousSearch():Flow<List<HotelEntity>>
+    suspend fun getNewHotels(
+        checkInDate: String, checkOutDate: String, nrAdults: Int, nrChildren: Int,
+    ): Flow<List<HotelEntity>>
+
+    suspend fun getPreviousSearches(): Flow<List<HotelQueryEntity>>
 }
