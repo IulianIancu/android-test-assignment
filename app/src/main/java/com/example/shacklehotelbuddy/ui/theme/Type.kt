@@ -15,6 +15,20 @@ data class CustomTypography constructor(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.5.sp
+    ),
+    val mainTitle: TextStyle = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W600,
+        fontSize = 44.sp,
+        lineHeight = 50.sp,
+        letterSpacing = 1.5.sp
+    ),
+    val subtitle: TextStyle = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W400,
+        fontSize = 20.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 1.sp
     )
 )
 

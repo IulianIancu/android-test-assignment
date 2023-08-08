@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">ShackleHotelBuddy</string>
+    <string name="check_in_date_icon">Check-in date icon</string>
+    <string name="check_in_date">Check-in date</string>
+    <string name="check_out_date">Check-out date</string>
+    <string name="check_out_date_icon">Check-out date icon</string>
+    <string name="date_placeholder">DD/MM/YYYY</string>
+    <string name="adults">Adults</string>
+    <string name="adults_icon">Adults Icon</string>
+    <string name="children_icon">Children Icon</string>
+    <string name="children">Children</string>
+    <string name="select_guests">Select guests, date and time</string>
+    <string name="recent_searches">Recent Searches</string>
+    <string name="search">Search</string>
+    <string name="search_results">Search results</string>
+    <string name="go_back">Go back</string>
+    <string name="recent_search_icon">Recent search icon</string>
+    <string name="hotel_image">Hotel image</string>
+    <string name="hotel_rating">Hotel rating</string>
 </resources>
