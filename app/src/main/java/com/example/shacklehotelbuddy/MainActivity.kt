@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ShackleHotelBuddyTheme {
-                MainScreen()
+                MainScreen(viewModel)
             }
         }
         viewModel.errorState.observe(this, ::onErrorStateChanged)
@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun MainScreen() {
+    fun MainScreen(viewModel: IMainViewModel) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -114,13 +114,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.padding(bottom = 20.dp)
                 )
 
-                RowCheckIn()
+                RowCheckIn(viewModel)
                 Divider()
-                RowCheckOut()
+                RowCheckOut(viewModel)
                 Divider()
-                RowAdults()
+                RowAdults(viewModel)
                 Divider()
-                RowChildren()
+                RowChildren(viewModel)
 
                 Text(
                     text = stringResource(id = R.string.recent_searches),
@@ -138,7 +138,7 @@ class MainActivity : ComponentActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     items(previousSearches.value) {
-                        RecentSearchItem(it)
+                        RecentSearchItem(it,viewModel)
                     }
                 }
 
@@ -158,7 +158,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun RecentSearchItem(hotelQueryEntity: HotelQueryEntity) {
+    fun RecentSearchItem(hotelQueryEntity: HotelQueryEntity,viewModel: IMainViewModel) {
         Row(
             horizontalArrangement = Arrangement.Start,
             modifier = Modifier
@@ -203,7 +203,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun RowCheckIn() {
+    fun RowCheckIn(viewModel: IMainViewModel) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -266,7 +266,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun RowCheckOut() {
+    fun RowCheckOut(viewModel: IMainViewModel) {
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -326,7 +326,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun RowAdults() {
+    fun RowAdults(viewModel: IMainViewModel) {
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -371,7 +371,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun RowChildren() {
+    fun RowChildren(viewModel: IMainViewModel) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -423,7 +423,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun GreetingPreview() {
         ShackleHotelBuddyTheme {
-            MainScreen()
+            MainScreen(FakeViewModel())
         }
     }
 }

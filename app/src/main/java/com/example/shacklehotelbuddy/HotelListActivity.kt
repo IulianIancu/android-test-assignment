@@ -45,13 +45,13 @@ class HotelListActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ShackleHotelBuddyTheme {
-                HotelList()
+                HotelList(viewModel)
             }
         }
     }
 
     @Composable
-    fun HotelList() {
+    fun HotelList(viewModel: IMainViewModel) {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         Scaffold(
             modifier = Modifier
@@ -142,7 +142,7 @@ class HotelListActivity : ComponentActivity() {
     @Composable
     fun HotelListPreview() {
         ShackleHotelBuddyTheme {
-            HotelList()
+            HotelList(FakeViewModel())
         }
     }
 

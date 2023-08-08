@@ -11,6 +11,7 @@ import com.iulian.iancu.domain.HotelEntity
 import com.iulian.iancu.domain.HotelQueryEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,22 +24,22 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getNewHotelsUseCase: GetNewHotelsUseCase,
     private val getPreviousSearchesUseCase: GetPreviousSearchesUseCase
-) : ViewModel() {
+) : ViewModel(), IMainViewModel {
 
     private val _currentCheckInDate = MutableStateFlow("DD/MM/YYYY")
-    val currentCheckInDate = _currentCheckInDate.asStateFlow()
+    override val currentCheckInDate = _currentCheckInDate.asStateFlow()
 
     private val _currentCheckOutDate = MutableStateFlow("DD/MM/YYYY")
-    val currentCheckOutDate = _currentCheckOutDate.asStateFlow()
+    override val currentCheckOutDate = _currentCheckOutDate.asStateFlow()
 
     private val _currentAdultCount = MutableStateFlow("1")
-    val currentAdultCount = _currentAdultCount.asStateFlow()
+    override val currentAdultCount = _currentAdultCount.asStateFlow()
 
     private val _currentChildCount = MutableStateFlow("0")
-    val currentChildCount = _currentChildCount.asStateFlow()
+    override val currentChildCount = _currentChildCount.asStateFlow()
 
     private val _previousSearches = MutableStateFlow<List<HotelQueryEntity>>(emptyList())
-    val previousSearches = _previousSearches.asStateFlow()
+    override val previousSearches = _previousSearches.asStateFlow()
 
     private val _errorState = MutableLiveData<ErrorState>(ErrorState.NoError)
     val errorState: LiveData<ErrorState> get() = _errorState
@@ -48,7 +49,7 @@ class MainViewModel @Inject constructor(
     val searchCompleteState: LiveData<SearchCompleteState> get() = _searchCompleteState
 
     private val _hotelList = MutableStateFlow<List<HotelEntity>>(emptyList())
-    val hotelList = _hotelList.asStateFlow()
+    override val hotelList = _hotelList.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -58,32 +59,32 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun onMovedToNextScreen() {
+    override fun onMovedToNextScreen() {
         _searchCompleteState.value = SearchCompleteState.Incomplete
     }
 
-    fun onNewCheckInDate(newDate: String) {
+    override fun onNewCheckInDate(newDate: String) {
         _currentCheckInDate.value = newDate
     }
 
-    fun onNewCheckOutDate(newDate: String) {
+    override fun onNewCheckOutDate(newDate: String) {
         _currentCheckOutDate.value = newDate
     }
 
-    fun onAdultCountChanged(newCount: String) {
+    override fun onAdultCountChanged(newCount: String) {
         _currentAdultCount.value = newCount
     }
 
-    fun onChildCountChanged(newCount: String) {
+    override fun onChildCountChanged(newCount: String) {
         _currentChildCount.value = newCount
     }
 
-    fun showOldSearch(oldSearch: HotelQueryEntity) {
+    override fun showOldSearch(oldSearch: HotelQueryEntity) {
         _hotelList.value = oldSearch.results
         _searchCompleteState.value = SearchCompleteState.Complete
     }
 
-    fun trySearchingHotels() {
+    override fun trySearchingHotels() {
         //try to parse the dates as a date
         try {
             SimpleDateFormat(HotelQueryEntity.DATE_FORMAT, Locale.getDefault()).parse(
@@ -134,6 +135,59 @@ class MainViewModel @Inject constructor(
         }
 
     }
+}
+
+interface IMainViewModel {
+    val currentCheckInDate: StateFlow<String>
+    val currentCheckOutDate: StateFlow<String>
+    val currentAdultCount: StateFlow<String>
+    val currentChildCount: StateFlow<String>
+    val previousSearches: StateFlow<List<HotelQueryEntity>>
+    val hotelList: StateFlow<List<HotelEntity>>
+    fun trySearchingHotels()
+    fun onMovedToNextScreen()
+    fun onNewCheckInDate(newDate: String)
+    fun onNewCheckOutDate(newDate: String)
+    fun onAdultCountChanged(newCount: String)
+    fun onChildCountChanged(newCount: String)
+    fun showOldSearch(oldSearch: HotelQueryEntity)
+}
+
+class FakeViewModel(
+    override val currentCheckInDate: StateFlow<String> = MutableStateFlow("DD/MM/YYYY"),
+    override val currentCheckOutDate: StateFlow<String> = MutableStateFlow("DD/MM/YYYY"),
+    override val currentAdultCount: StateFlow<String> = MutableStateFlow("1"),
+    override val currentChildCount: StateFlow<String> = MutableStateFlow("0"),
+    override val previousSearches: StateFlow<List<HotelQueryEntity>> = MutableStateFlow(
+        listOf(
+            HotelQueryEntity(
+                "DD/MM/YYYY",
+                "DD/MM/YYYY",
+                1,
+                0,
+                emptyList()
+            )
+        )
+    ),
+    override val hotelList: StateFlow<List<HotelEntity>> = MutableStateFlow(
+        listOf(
+            HotelEntity(
+                "Test",
+                "https://upload.wikimedia.org/wikipedia/commons/1/15/Cat_August_2010-4.jpg",
+                "Wherever",
+                12.0,
+                ""
+            )
+        )
+    )
+) : IMainViewModel {
+    override fun trySearchingHotels() {}
+    override fun onMovedToNextScreen() {}
+    override fun onNewCheckInDate(newDate: String) {}
+    override fun onNewCheckOutDate(newDate: String) {}
+    override fun onAdultCountChanged(newCount: String) {}
+    override fun onChildCountChanged(newCount: String) {}
+    override fun showOldSearch(oldSearch: HotelQueryEntity) {}
 }
 
 sealed class SearchCompleteState {
