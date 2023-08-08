@@ -8,7 +8,7 @@ class GetNewHotelsUseCase(private val hotelRepository: HotelRepository) {
         checkOutDate: String,
         nrAdults: Int,
         nrChildren: Int,
-    ): Flow<List<HotelEntity>> {
+    ): List<HotelEntity> {
         return hotelRepository.getNewHotels(checkInDate, checkOutDate, nrAdults, nrChildren)
     }
 
@@ -17,7 +17,7 @@ class GetNewHotelsUseCase(private val hotelRepository: HotelRepository) {
         checkOutDate: String,
         nrAdults: Int,
         nrChildren: Int,
-    ): Flow<List<HotelEntity>> {
+    ): List<HotelEntity> {
         return run(checkInDate, checkOutDate, nrAdults, nrChildren)
     }
 }

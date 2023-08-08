@@ -17,4 +17,9 @@
     <string name="recent_search_icon">Recent search icon</string>
     <string name="hotel_image">Hotel image</string>
     <string name="hotel_rating">Hotel rating</string>
+    <string name="incorrect_check_in">Please select a valid date for check-in</string>
+    <string name="incorrect_check_out">Please select a valid date for check-out</string>
+    <string name="incorrect_adult">Please enter the number of adults for the booking</string>
+    <string name="incorrect_child">Please enter the number of children for the booking</string>
+    <string name="network_error">There was an issue with the network, please try again later</string>
 </resources>

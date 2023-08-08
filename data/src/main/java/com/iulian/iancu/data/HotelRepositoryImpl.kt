@@ -18,7 +18,6 @@ import com.iulian.iancu.domain.HotelQueryEntity.Companion.MONTH_FORMAT
 import com.iulian.iancu.domain.HotelQueryEntity.Companion.YEAR_FORMAT
 import com.iulian.iancu.domain.HotelRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -33,7 +32,7 @@ class HotelRepositoryImpl(
         checkOutDate: String,
         nrAdults: Int,
         nrChildren: Int
-    ): Flow<List<HotelEntity>> {
+    ): List<HotelEntity> {
         val checkIn = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(checkInDate) as Date
         val checkOut =
             SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(checkOutDate) as Date
@@ -73,7 +72,7 @@ class HotelRepositoryImpl(
             hotelQueryDAO.insertQuery(latestHotelQuery)
 
             //Step 2: Return the result from the API
-            return MutableStateFlow(hotels.map { it.toHotelEntity() })
+            return hotels.map { it.toHotelEntity() }
         } else {
             throw NetworkErrorException("There was an issue with the API")
         }

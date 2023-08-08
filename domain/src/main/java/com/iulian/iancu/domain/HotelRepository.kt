@@ -6,7 +6,7 @@ interface HotelRepository {
 
     suspend fun getNewHotels(
         checkInDate: String, checkOutDate: String, nrAdults: Int, nrChildren: Int,
-    ): Flow<List<HotelEntity>>
+    ): List<HotelEntity>
 
     suspend fun getPreviousSearches(): Flow<List<HotelQueryEntity>>
 }

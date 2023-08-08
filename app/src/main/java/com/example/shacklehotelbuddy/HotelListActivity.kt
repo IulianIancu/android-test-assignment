@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -32,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.shacklehotelbuddy.ui.theme.ShackleHotelBuddyTheme
+import com.iulian.iancu.domain.HotelEntity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -72,28 +75,28 @@ class HotelListActivity : ComponentActivity() {
                     scrollBehavior = scrollBehavior
                 )
             }) { values ->
+            val hotels = viewModel.hotelList.collectAsState()
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(values)
             ) {
-                items(5) {
-                    HotelItem()
+                items(hotels.value) {
+                    HotelItem(it)
                 }
             }
         }
     }
 
     @Composable
-    fun HotelItem() {
+    fun HotelItem(hotel: HotelEntity) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
             AsyncImage(
-                model = "https://upload.wikimedia.org/wikipedia/commons/1/15/Cat_August_2010-4.jpg",
-                placeholder = painterResource(id = R.drawable.background),
+                model = hotel.imageURL,
                 contentDescription = stringResource(id = R.string.hotel_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -104,17 +107,17 @@ class HotelListActivity : ComponentActivity() {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Beverly Hotel",
+                        text = hotel.name,
                         style = ShackleHotelBuddyTheme.typography.bodyMedium,
                         color = ShackleHotelBuddyTheme.colors.black
                     )
                     Text(
-                        text = "Amsterdam, Netherlands",
+                        text = hotel.location,
                         style = ShackleHotelBuddyTheme.typography.bodyMedium,
                         color = ShackleHotelBuddyTheme.colors.grayText
                     )
                     Text(
-                        text = "£100 night",
+                        text = "${hotel.price} night",
                         style = ShackleHotelBuddyTheme.typography.bodyMedium,
                         color = ShackleHotelBuddyTheme.colors.black
                     )
@@ -125,7 +128,7 @@ class HotelListActivity : ComponentActivity() {
                         contentDescription = stringResource(id = R.string.hotel_rating)
                     )
                     Text(
-                        text = "4.5",
+                        text = hotel.rating.toString(),
                         style = ShackleHotelBuddyTheme.typography.bodyMedium,
                         color = ShackleHotelBuddyTheme.colors.black
                     )
